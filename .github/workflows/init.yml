@@ -1,0 +1,25 @@
+name: Upload Restaurants to Firestore
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  firestore-seed:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: npm install firebase-admin
+
+      - name: Run seed script
+        run: node scripts/initRestaurants.js
+        env:
+          FIREBASE_ADMIN: ${{ secrets.FIREBASE_ADMIN }}
